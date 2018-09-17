@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html >
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} - The Imaginary Co.</title>
+    {% endblock %}
+</head>
+<body>
+<h1>The Imaginary Co.</h1>
+
+
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+<ul class = "flashes">
+    {% for message in messages %}
+    <li> {{ message }}</li>
+
+    {% endfor %}
+
+
+</ul>
+
+
+{% endif %}
+{% endwith %}
+
+<div id ='content'>
+
+    {% block content %}{% endblock %}
+
+</div>
+
+<footer>
+
+    {% block footer %}
+
+    &copy: Copyright 2014 by <a href="http://imaginary.co"> The Imaginary Co.</a>
+
+    {% endblock %}
+
+
+</footer>
+
+</body>
+</html>
