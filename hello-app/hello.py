@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, render_template, redirect
+from flask import Flask, url_for, request, render_template, redirect, flash
 
 import os
 
@@ -13,6 +13,7 @@ def login():
 #        return 'Username %s logged in' % request.form['username']
          if valid_login(request.form['username'], request.form['password']):
 #             return 'Welcome back, %s' % request.form['username']
+             flash('Successfully logged in')
              return redirect(url_for('welcome', username=request.form.get('username')))
          else:
               error = 'Incorrect username or password'
@@ -76,4 +77,5 @@ if __name__ == '__main__':
     app.debug = True
     host = os.getenv('IP','0.0.0.0')
     port = int(os.getenv('PORT', 5000))
+    app.secret_key = "SupersecreateKey"
     app.run(host = host, port = port)
