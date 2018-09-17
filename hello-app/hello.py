@@ -8,10 +8,20 @@ app = Flask(__name__)
 @app.route('/login', methods = ['GET', "POST"])
 
 def login():
+    error = None
     if request.method ==  'POST':
-        return 'Username %s logged in' % request.form['username']
-    return render_template('login.html')
+#        return 'Username %s logged in' % request.form['username']
+         if valid_login(request.form['username'], request.form['password']):
+             return 'Welcome back, %s' % request.form['username']
+         else:
+              error = 'Incorrect username or password'
+    return render_template('login.html', error = error)
 
+def valid_login(username, password):
+    if username == password:
+        return True
+    else:
+        return False
 
 
 @app.route('/login2', methods = ['GET','POST'])
