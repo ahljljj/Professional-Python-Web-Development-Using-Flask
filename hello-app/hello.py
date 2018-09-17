@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, render_template
+from flask import Flask, url_for, request, render_template, redirect
 
 import os
 
@@ -12,7 +12,8 @@ def login():
     if request.method ==  'POST':
 #        return 'Username %s logged in' % request.form['username']
          if valid_login(request.form['username'], request.form['password']):
-             return 'Welcome back, %s' % request.form['username']
+#             return 'Welcome back, %s' % request.form['username']
+             return redirect(url_for('welcome', username=request.form.get('username')))
          else:
               error = 'Incorrect username or password'
     return render_template('login.html', error = error)
@@ -22,6 +23,12 @@ def valid_login(username, password):
         return True
     else:
         return False
+
+
+@app.route('/welcome/<username>')
+
+def welcome(username):
+    return render_template('welcome.html', username = username)
 
 
 @app.route('/login2', methods = ['GET','POST'])
