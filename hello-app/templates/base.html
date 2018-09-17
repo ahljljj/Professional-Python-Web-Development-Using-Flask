@@ -6,7 +6,12 @@
     {% endblock %}
 </head>
 <body>
-<h1>The Imaginary Co.</h1>
+
+<div id = 'logo'>
+
+    <img src="{{url_for('static', filename = 'Mercedes-Benz-logo.png')}}" alt ="The Imaginary Co." height="150px" />
+
+</div>
 
 
 {% with messages = get_flashed_messages() %}

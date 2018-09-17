@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, render_template, redirect, flash
+from flask import Flask, url_for, request, render_template, redirect, flash, make_response
 
 import os
 
@@ -14,10 +14,20 @@ def login():
          if valid_login(request.form['username'], request.form['password']):
 #             return 'Welcome back, %s' % request.form['username']
              flash('Successfully logged in')
-             return redirect(url_for('welcome', username=request.form.get('username')))
+#             return redirect(url_for('welcome', username=request.form.get('username')))
+             response = make_response(redirect(url_for('welcome')))
+             response.set_cookie('username', request.form.get('username'))
+             return response
          else:
               error = 'Incorrect username or password'
     return render_template('login.html', error = error)
+
+
+@app.route('/logout')
+def logout():
+    response = make_response(redirect(url_for('login')))
+    response.set_cookie('username', '', expires = 0)
+    return response
 
 def valid_login(username, password):
     if username == password:
@@ -26,10 +36,15 @@ def valid_login(username, password):
         return False
 
 
-@app.route('/welcome/<username>')
+@app.route('/')
 
-def welcome(username):
-    return render_template('welcome.html', username = username)
+def welcome():
+    username = request.cookies.get('username')
+    if username:
+        return render_template('welcome.html', username = username)
+    else:
+        return  redirect(url_for('login'))
+
 
 
 @app.route('/login2', methods = ['GET','POST'])
