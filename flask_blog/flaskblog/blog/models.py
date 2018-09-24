@@ -27,13 +27,13 @@ class Post(db.Model):
     publish_date = db.Column(db.DateTime)
     live = db.Column(db.Boolean)
 
-    category_id = db.Column(db.Integer, db.Foreign('category.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
 
     def __init__(self, blog, author, title, body, category, slug=None, publish_date=None, live=True):
         self.blog_id = blog.id
         self.author_id = author.id
         self.title = title
-        self.category = category
+        self.category_id = category.id
         self.body = body
         self.slug = slug
         if publish_date is None:
